@@ -1,1 +1,12 @@
+{% extends 'layout.html' %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/welcome.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="welcome-container">
+  <h1>Welcome to <span class="highlight">STOXDB</span></h1>
+  <a href="{{ url_for('dashboard') }}" class="enter-button">Enter Dashboard</a>
+</div>
+{% endblock %}
 
