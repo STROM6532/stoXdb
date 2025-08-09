@@ -1,23 +1,12 @@
-INSERT INTO stock_prices (symbol, date, open, high, low, close, volume) VALUES
-('AAPL', '2025-08-01', 192.5, 194.2, 191.0, 193.8, 45000000),
-('AAPL', '2025-08-02', 193.8, 195.5, 192.0, 194.9, 47000000),
-('AAPL', '2025-08-03', 194.9, 197.0, 194.5, 196.7, 46000000);
+-- Insert sample companies
+INSERT INTO companies (symbol, name, sector) VALUES
+('AAPL', 'Apple Inc.', 'Technology'),
+('GOOGL', 'Alphabet Inc.', 'Technology'),
+('MSFT', 'Microsoft Corp.', 'Technology');
 
--- 📁 database/procedures/stock_summary_proc.sql
-USE stoxdb;
-
-DELIMITER //
-CREATE PROCEDURE GetStockSummary(IN stockSymbol VARCHAR(10))
-BEGIN
-    SELECT 
-        symbol,
-        COUNT(*) AS total_days,
-        AVG(close) AS avg_close,
-        MAX(high) AS max_high,
-        MIN(low) AS min_low
-    FROM stock_prices
-    WHERE symbol = stockSymbol
-    GROUP BY symbol;
-END //
-DELIMITER ;
-
+-- Insert sample stock prices
+INSERT INTO stock_prices (company_id, date, open, high, low, close, volume) VALUES
+(1, '2025-08-01', 185.00, 187.50, 183.00, 186.75, 50000000),
+(1, '2025-08-02', 186.75, 188.00, 185.50, 187.20, 48000000),
+(2, '2025-08-01', 2800.00, 2850.00, 2785.00, 2825.50, 1500000),
+(3, '2025-08-01', 330.00, 335.00, 328.50, 334.00, 25000000);

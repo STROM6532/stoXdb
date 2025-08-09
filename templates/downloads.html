@@ -1,14 +1,10 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
 {% block content %}
-<div class="downloads-container">
-  <h1>Download Your Charts</h1>
-  <button id="download-chart" class="download-button">Download Current Chart</button>
-  <canvas id="stockChart" width="800" height="400"></canvas>
+<h1>Downloads</h1>
+<p>Download stock reports, charts, and raw data here.</p>
+
+<div class="download-list">
+    <a href="/static/reports/sample-report.csv" class="btn btn-secondary">Download Sample CSV</a>
+    <a href="/static/reports/sample-report.pdf" class="btn btn-secondary">Download Sample PDF</a>
 </div>
 {% endblock %}
-
-{% block extra_js %}
-<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
-<script src="{{ url_for('static', filename='js/download.js') }}"></script>
-{% endblock %}
-
