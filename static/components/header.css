@@ -1,1 +1,31 @@
+/* Header.css — Top Navigation */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-card);
+  padding: 10px 20px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.site-header .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-header .logo span {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.nav-links a {
+  margin-left: 20px;
+  color: var(--text-light);
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary-color);
+}
 

@@ -1,1 +1,33 @@
+{
+  "appName": "STOXDB",
+  "theme": {
+    "mode": "dark",
+    "primaryColor": "#00F7FF",
+    "secondaryColor": "#8A2BE2",
+    "backgroundColor": "#0A0F1C",
+    "cardBackground": "#121B2F",
+    "textColor": "#FFFFFF",
+    "mutedTextColor": "#8D9DBB"
+  },
+  "chart": {
+    "defaultSymbol": "AAPL",
+    "range": "1mo",
+    "interval": "1d",
+    "lineTension": 0.3,
+    "fill": true,
+    "borderWidth": 2
+  },
+  "api": {
+    "baseUrl": "/api",
+    "endpoints": {
+      "getData": "/data?symbol=",
+      "updateData": "/update"
+    },
+    "refreshIntervalSeconds": 3600
+  },
+  "downloads": {
+    "defaultFileName": "stoxdb_chart.png",
+    "imageType": "image/png"
+  }
+}
 

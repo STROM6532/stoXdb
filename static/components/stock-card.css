@@ -1,1 +1,19 @@
+/* Stock-card.css — Stock Summary Cards */
+.stock-card {
+  background-color: var(--bg-card);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid var(--primary-color);
+  margin: 10px;
+  width: 200px;
+}
+
+.stock-card h3 {
+  color: var(--primary-color);
+}
+
+.stock-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
 
