@@ -13,4 +13,3 @@ BEGIN
     WHERE symbol = stockSymbol
     GROUP BY symbol;
 END //
-DELIMITER ;
