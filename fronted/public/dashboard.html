@@ -1,1 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOXDB - Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .stock-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📊 Stock Dashboard</h1>
+        <a href="index.html">🏠 Home</a>
+    </header>
+
+    <div id="stock-list">
+        <p>Loading stock data...</p>
+    </div>
+
+    <script>
+        async function loadStocks() {
+            try {
+                const res = await fetch("http://localhost:5000/api/companies");
+                const stocks = await res.json();
+                const list = document.getElementById("stock-list");
+                list.innerHTML = "";
+                stocks.forEach(s => {
+                    const div = document.createElement("div");
+                    div.className = "stock-card";
+                    div.innerHTML = `<h3>${s.symbol} - ${s.name}</h3><p>Sector: ${s.sector}</p>`;
+                    list.appendChild(div);
+                });
+            } catch (err) {
+                document.getElementById("stock-list").innerHTML = "<p>⚠️ Error loading data</p>";
+            }
+        }
+        loadStocks();
+    </script>
+</body>
+</html>
 
