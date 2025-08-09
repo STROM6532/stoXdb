@@ -1,33 +1,34 @@
-import requests
-from datetime import datetime
-from database import insert_stock_data
+import yfinance as yf
+from database import get_db_connection
 
-def fetch_stock_data(symbol='AAPL'):
-    url = f'https://query1.finance.yahoo.com/v7/finance/chart/{symbol}?range=1mo&interval=1d'
-    response = requests.get(url)
-    if response.status_code != 200:
-        print("Failed to fetch data")
-        return []
+def fetch_and_store(symbol, company_id):
+    print(f"Fetching data for {symbol}...")
+    stock = yf.Ticker(symbol)
+    hist = stock.history(period="1y")  # last 1 year
 
-    result = response.json()
-    timestamps = result['chart']['result'][0]['timestamp']
-    indicators = result['chart']['result'][0]['indicators']['quote'][0]
-    prices = []
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
-    for i in range(len(timestamps)):
-        prices.append({
-            'date': datetime.fromtimestamp(timestamps[i]).strftime('%Y-%m-%d'),
-            'open': indicators['open'][i],
-            'high': indicators['high'][i],
-            'low': indicators['low'][i],
-            'close': indicators['close'][i],
-            'volume': indicators['volume'][i],
-            'symbol': symbol
-        })
+    for date, row in hist.iterrows():
+        cursor.execute("""
+            INSERT INTO stock_prices (company_id, date, open, high, low, close, volume)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+                open=VALUES(open),
+                high=VALUES(high),
+                low=VALUES(low),
+                close=VALUES(close),
+                volume=VALUES(volume)
+        """, (
+            company_id, date.date(), float(row['Open']), float(row['High']),
+            float(row['Low']), float(row['Close']), int(row['Volume'])
+        ))
 
-    return prices
+    conn.commit()
+    cursor.close()
+    conn.close()
+    print(f"Data stored for {symbol}")
 
-def fetch_and_store_latest_data(symbol='AAPL'):
-    data = fetch_stock_data(symbol)
-    for entry in data:
-        insert_stock_data(entry)
+if __name__ == "__main__":
+    # Example usage: fetch for Apple
+    fetch_and_store("AAPL", 1)
