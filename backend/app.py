@@ -3,18 +3,23 @@ from flask_cors import CORS
 from database import get_db_connection
 import datetime
 
-app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend testing
+app = Flask(__name__, template_folder="../templates", static_folder="../static")
+CORS(app)  # Allow API access from JS
 
 # ---------- FRONTEND ROUTES ----------
 @app.route("/")
 @app.route("/welcome")
 def welcome():
-    return render_template("welcome.html")
+    return render_template("welcome.html", title="Welcome to STOXDB", current_year=datetime.datetime.now().year)
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    return render_template("dashboard.html", title="Stock Dashboard", current_year=datetime.datetime.now().year)
+
+@app.route("/downloads")
+def downloads():
+    return render_template("downloads.html", title="Downloads", current_year=datetime.datetime.now().year)
+
 
 # ---------- API ROUTES ----------
 @app.route("/api/companies")
@@ -29,7 +34,7 @@ def get_companies():
 
 @app.route("/api/stocks")
 def get_stocks():
-    symbol = request.args.get("symbol")
+    symbol = request.args.get("symbol", "AAPL")  # Default to Apple
     from_date = request.args.get("from")
     to_date = request.args.get("to")
 
@@ -59,5 +64,7 @@ def get_stocks():
     conn.close()
     return jsonify(data)
 
+
+# ---------- Run App ----------
 if __name__ == "__main__":
     app.run(debug=True)
