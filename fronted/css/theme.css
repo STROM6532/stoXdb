@@ -1,1 +1,29 @@
+:root {
+    --primary: #00ff88;
+    --primary-dark: #00cc6a;
+    --secondary: #007BFF;
+    --bg-dark: #0d0d0d;
+    --bg-light: #ffffff;
+}
+
+/* Reusable Buttons */
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: var(--primary);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
 

@@ -1,33 +1,33 @@
 {
-  "appName": "STOXDB",
-  "theme": {
-    "mode": "dark",
-    "primaryColor": "#00F7FF",
-    "secondaryColor": "#8A2BE2",
-    "backgroundColor": "#0A0F1C",
-    "cardBackground": "#121B2F",
-    "textColor": "#FFFFFF",
-    "mutedTextColor": "#8D9DBB"
-  },
-  "chart": {
-    "defaultSymbol": "AAPL",
-    "range": "1mo",
-    "interval": "1d",
-    "lineTension": 0.3,
-    "fill": true,
-    "borderWidth": 2
-  },
-  "api": {
-    "baseUrl": "/api",
-    "endpoints": {
-      "getData": "/data?symbol=",
-      "updateData": "/update"
+    "appName": "STOXDB",
+    "version": "1.0.0",
+    "theme": {
+        "primaryColor": "#00ff88",
+        "secondaryColor": "#007BFF",
+        "backgroundColor": "#0d0d0d",
+        "textColor": "#ffffff"
     },
-    "refreshIntervalSeconds": 3600
-  },
-  "downloads": {
-    "defaultFileName": "stoxdb_chart.png",
-    "imageType": "image/png"
-  }
+    "dashboard": {
+        "autoRefresh": true,
+        "refreshIntervalSeconds": 30,
+        "defaultChartType": "line",
+        "showVolume": true
+    },
+    "charts": {
+        "line": {
+            "lineTension": 0.3,
+            "borderWidth": 2
+        },
+        "bar": {
+            "borderWidth": 1
+        }
+    },
+    "api": {
+        "baseUrl": "http://localhost:5000/api",
+        "endpoints": {
+            "stocks": "stocks",
+            "companies": "companies",
+            "downloadData": "download"
+        }
+    }
 }
-
