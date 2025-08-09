@@ -1,15 +1,8 @@
-// api.js - Backend API calls
-function loadChart(symbol) {
-  fetch(`/api/data?symbol=${symbol}`)
-    .then(res => res.json())
-    .then(data => {
-      if (!data.length) {
-        alert(`⚠ No data found for symbol: ${symbol}`);
-        return;
-      }
-      renderChart(data);
-    })
-    .catch(err => console.error('❌ API Error:', err));
+// Handles API calls to Flask backend
+const API_BASE = "http://127.0.0.1:5000"; // Change if different
+
+async function fetchData(endpoint) {
+    const res = await fetch(`${API_BASE}${endpoint}`);
+    if (!res.ok) throw new Error(`Error: ${res.status}`);
+    return res.json();
 }
-
-

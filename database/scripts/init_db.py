@@ -1,29 +1,49 @@
 import mysql.connector
+import os
+from dotenv import load_dotenv
 
-def run_sql_file(path, cursor):
-    with open(path, 'r') as file:
-        sql = file.read()
-        for statement in sql.split(';'):
-            if statement.strip():
-                cursor.execute(statement)
+load_dotenv()
 
-def initialize_database():
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_USER = os.getenv("DB_USER", "root")
+DB_PASS = os.getenv("DB_PASS", "")
+DB_NAME = os.getenv("DB_NAME", "stoxdb")
+
+def run_sql_file(cursor, filepath):
+    with open(filepath, 'r') as f:
+        sql_commands = f.read().split(';')
+        for command in sql_commands:
+            if command.strip():
+                cursor.execute(command)
+
+def init_database():
     conn = mysql.connector.connect(
-        host='localhost',
-        user='your_username',
-        password='your_password'
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASS
     )
     cursor = conn.cursor()
 
-    run_sql_file('../schema/create_tables.sql', cursor)
-    run_sql_file('../seed/sample_data.sql', cursor)
-    run_sql_file('../procedures/stock_summary_proc.sql', cursor)
+    # Create DB if not exists
+    cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}")
+    conn.database = DB_NAME
+
+    # Create tables
+    print("Creating tables...")
+    run_sql_file(cursor, os.path.join("database", "schema", "create_tables.sql"))
+
+    # Seed data
+    print("Inserting sample data...")
+    run_sql_file(cursor, os.path.join("database", "seed", "sample_data.sql"))
+
+    # Stored procedures
+    print("Creating stored procedures...")
+    run_sql_file(cursor, os.path.join("database", "procedures", "stock_summary_proc.sql"))
 
     conn.commit()
     cursor.close()
     conn.close()
-    print("Database initialized with schema, sample data, and procedures.")
+    print("Database initialized successfully!")
 
-if __name__ == '__main__':
-    initialize_database()
-
+if __name__ == "__main__":
+    init_database()

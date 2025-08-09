@@ -1,52 +1,13 @@
 import mysql.connector
 import os
+from dotenv import load_dotenv
 
-def get_connection():
+load_dotenv()  # Load DB credentials from .env
+
+def get_db_connection():
     return mysql.connector.connect(
-        host='localhost',
-        user='your_username',
-        password='your_password',
-        database='stoxdb'
+        host=os.getenv("DB_HOST", "localhost"),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASS", ""),
+        database=os.getenv("DB_NAME", "stoxdb")
     )
-
-def insert_stock_data(entry):
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    query = '''
-    INSERT INTO stock_prices (symbol, date, open, high, low, close, volume)
-    VALUES (%s, %s, %s, %s, %s, %s, %s)
-    ON DUPLICATE KEY UPDATE
-        open=VALUES(open),
-        high=VALUES(high),
-        low=VALUES(low),
-        close=VALUES(close),
-        volume=VALUES(volume)
-    '''
-    cursor.execute(query, (
-        entry['symbol'], entry['date'], entry['open'],
-        entry['high'], entry['low'], entry['close'], entry['volume']
-    ))
-
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-def get_stock_data(symbol='AAPL'):
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    query = '''
-    SELECT date, open, high, low, close, volume
-    FROM stock_prices
-    WHERE symbol = %s
-    ORDER BY date DESC
-    LIMIT 30
-    '''
-    cursor.execute(query, (symbol,))
-    result = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-    return result
-

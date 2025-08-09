@@ -1,12 +1,16 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/components/welcome.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/welcome.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="welcome-container">
-  <h1>Welcome to <span class="highlight">STOXDB</span></h1>
-  <a href="{{ url_for('dashboard') }}" class="enter-button">Enter Dashboard</a>
+    <h1 class="welcome-title">Welcome to STOXDB</h1>
+    <p>Your futuristic stock data analytics platform.</p>
+    <button id="start-btn" class="btn btn-primary welcome-btn">Go to Dashboard</button>
 </div>
 {% endblock %}
 
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/welcome.js') }}"></script>
+{% endblock %}

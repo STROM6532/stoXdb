@@ -1,1 +1,12 @@
 
+.stock-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stock-card h3 {
+  font-size: 1.2rem;
+}

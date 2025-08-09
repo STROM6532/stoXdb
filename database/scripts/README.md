@@ -1,23 +1,39 @@
 # STOXDB Database Setup
 
-This folder contains everything needed to set up and seed the MySQL database for the STOXDB project.
+This folder contains all SQL and scripts to set up and seed the STOXDB MySQL database.
 
-## Contents
+## 📂 Structure
+- **schema/** → SQL files to create tables
+- **seed/** → SQL files with sample data
+- **procedures/** → SQL stored procedures/views
+- **scripts/** → Python automation scripts
+- **README.md** → This guide
 
-- schema/create_tables.sql — SQL to define required tables.
-- seed/sample_data.sql — Optional demo data for testing.
-- procedures/stock_summary_proc.sql — (Optional) stored procedure to summarize stock data.
-- scripts/init_db.py — Python script to run all SQL setup in one command.
+## ⚙️ Setup Steps
 
-## Usage
+1. **Create `.env` file** in project root:
+    ```
+    DB_HOST=localhost
+    DB_USER=root
+    DB_PASS=yourpassword
+    DB_NAME=stoxdb
+    ```
 
-1. Make sure MySQL is running.
-2. Update the credentials in init_db.py
-3. Run:
+2. **Install dependencies**:
+    ```bash
+    pip install mysql-connector-python python-dotenv
+    ```
 
-```bash
-python scripts/init_db.py
-```
+3. **Run the init script**:
+    ```bash
+    python database/scripts/init_db.py
+    ```
 
-This will create the database, populate it with sample data, and create the stored procedure.
+4. **Verify in MySQL**:
+    ```sql
+    USE stoxdb;
+    SHOW TABLES;
+    SELECT * FROM companies;
+    ```
 
+You now have a ready-to-use database with sample data.
