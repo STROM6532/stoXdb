@@ -1,24 +1,24 @@
--- Drop old tables if exist
-DROP TABLE IF EXISTS stock_prices;
-DROP TABLE IF EXISTS companies;
+-- create_tables.sql
+drop database stoxdb;
+CREATE DATABASE IF NOT EXISTS stoxdb;
+USE stoxdb;
 
--- Companies table
-CREATE TABLE companies (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    symbol VARCHAR(10) NOT NULL UNIQUE,
-    name VARCHAR(100) NOT NULL,
-    sector VARCHAR(50),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS companies (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  symbol VARCHAR(16) NOT NULL UNIQUE,
+  name VARCHAR(255) NOT NULL,
+  sector VARCHAR(100)
 );
 
--- Stock prices table
-CREATE TABLE stock_prices (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    company_id INT NOT NULL,
-    date DATE NOT NULL,
-    open DECIMAL(10, 2),
-    high DECIMAL(10, 2),
-    low DECIMAL(10, 2),
-    close DECIMAL(10, 2),
-    volume BIGINT,
-    FOREIGN KEY (company_id) REFERENCES companies(id) ON DE_
+CREATE TABLE IF NOT EXISTS stock_prices (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  company_id INT NOT NULL,
+  date DATE NOT NULL,
+  open DECIMAL(12,4),
+  high DECIMAL(12,4),
+  low DECIMAL(12,4),
+  close DECIMAL(12,4),
+  volume BIGINT,
+  INDEX idx_company_date (company_id, date),
+  FOREIGN KEY (company_id) REFERENCES companies(id)
+);
